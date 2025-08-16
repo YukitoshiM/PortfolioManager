@@ -1,6 +1,6 @@
 @echo off
 echo Starting backend server...
-start "Backend Server" cmd /k "backend\venv\Scripts\activate && uvicorn backend.main:app --reload"
+start "Backend Server" cmd /k "backend\venv\Scripts\activate && uvicorn backend.main:app --reload --reload-dir backend"
 echo Starting frontend server...
 start "Frontend Server" cmd /k "cd frontend && npm install && npm run dev"
 echo Servers started.
