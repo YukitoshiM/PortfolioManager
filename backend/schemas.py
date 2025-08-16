@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional, List
 
 # --- Strategy Schemas ---
@@ -15,8 +15,7 @@ class Strategy(StrategyBase):
     # parent_id: Optional[int] # Already inherited from StrategyBase
     # children: List[Strategy] = [] # Not including children to avoid recursion in response
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 # --- Stock Schemas ---
 class StockBase(BaseModel):
@@ -37,8 +36,7 @@ class Stock(StockBase):
     id: int
     strategies: List[Strategy] = [] # Include list of strategies in response model
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 # --- TargetAllocation Schemas ---
 class TargetAllocationBase(BaseModel):
@@ -49,5 +47,14 @@ class TargetAllocationCreate(TargetAllocationBase):
     pass
 
 class TargetAllocation(TargetAllocationBase):
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
+
+# --- Market Data Schemas ---
+class QuoteData(BaseModel):
+    c: float # Current price
+    d: Optional[float] = None # Change
+    dp: Optional[float] = None # Percent change
+    h: float # High price of the day
+    l: float # Low price of the day
+    o: float # Open price of the day
+    pc: float # Previous close price

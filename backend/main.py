@@ -152,6 +152,16 @@ async def get_all_live_prices(db: Session = Depends(get_db)):
     live_prices = {stock_id: price for stock_id, price in price_results if price is not None}
     return live_prices
 
+@app.get("/stocks/live-prices/{ticker}", response_model=schemas.QuoteData, tags=["Stocks"])
+async def get_single_live_price(ticker: str):
+    """
+    Fetches the live quote data for a single stock ticker.
+    """
+    quote = await asyncio.to_thread(market_data.get_quote_data, ticker)
+    if quote is not None:
+        return quote
+    raise HTTPException(status_code=404, detail=f"Quote data not found for ticker {ticker}.")
+
 @app.get("/stocks/name/{ticker}", tags=["Stocks"])
 async def get_stock_name(ticker: str):
     """
@@ -169,6 +179,37 @@ async def get_stock_name(ticker: str):
                 return {"name": item.get("description", "Unknown")}
         return {"name": search_results["result"][0].get("description", "Unknown")}
     raise HTTPException(status_code=404, detail="Stock name not found for this ticker.")
+
+@app.get("/stocks/{ticker}/profile", tags=["Stocks"])
+async def get_stock_profile(ticker: str):
+    """
+    Fetches the company profile for a given ticker.
+    """
+    profile = await asyncio.to_thread(market_data.get_company_profile, ticker)
+    if profile:
+        return profile
+    raise HTTPException(status_code=404, detail="Company profile not found for this ticker.")
+
+@app.get("/stocks/{ticker}/metrics", tags=["Stocks"])
+async def get_stock_metrics(ticker: str):
+    """
+    Fetches key financial metrics for a given ticker.
+    """
+    metrics = await asyncio.to_thread(market_data.get_financial_metrics, ticker)
+    if metrics:
+        return metrics
+    raise HTTPException(status_code=404, detail="Financial metrics not found for this ticker.")
+
+@app.get("/stocks/{ticker}/news", tags=["Stocks"])
+async def get_stock_news(ticker: str, _from: str, to: str):
+    """
+    Fetches company news for a given ticker and date range.
+    Date format: YYYY-MM-DD
+    """
+    news = await asyncio.to_thread(market_data.get_company_news, ticker, _from, to)
+    if news is not None: # news can be an empty list if no news found
+        return news
+    raise HTTPException(status_code=404, detail="Company news not found for this ticker or date range.")
 
 # --- Strategies API ---
 

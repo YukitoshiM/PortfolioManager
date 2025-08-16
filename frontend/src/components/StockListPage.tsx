@@ -263,7 +263,7 @@ const StockListPage: React.FC<StockListPageProps> = ({ stocks, livePrices, isLoa
                   ) : (
                     // Normal Row
                     <tr>
-                      <td>{stock.ticker}</td>
+                      <td><Link to={`/stocks/${stock.ticker}`}>{stock.ticker}</Link></td>
                       <td>{stock.name}</td>
                       <td>{stock.category}</td>
                       <td>{stock.strategies.map(s => s.name).join(', ')}</td> {/* Display strategy names */}

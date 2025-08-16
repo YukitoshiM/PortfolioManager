@@ -10,6 +10,7 @@ import AssetAllocationPage from './components/AssetAllocationPage';
 import StockListPage from './components/StockListPage';
 import NavBar from './components/NavBar';
 import StrategyPage from './components/StrategyPage'; // Import StrategyPage
+import StockDetailPage from './components/StockDetailPage'; // Import StockDetailPage
 
 // --- TypeScript Interfaces ---
 interface Stock {
@@ -196,6 +197,8 @@ function App() {
           <Route path="/asset-allocation" element={<AssetAllocationPage stocks={stocks} allocations={allocations} livePrices={livePrices} fetchAllocations={fetchAllocations} />} />
           <Route path="/stock-list" element={<StockListPage stocks={stocks} livePrices={livePrices} isLoadingPrices={isLoadingPrices} handleRefreshPrices={handleRefreshPrices} fetchStocks={fetchStocks} availableCategories={availableCategories} />} />
           <Route path="/strategies" element={<StrategyPage />} /> {/* New Route for StrategyPage */}
+          <Route path="/stocks/:stockId" element={<StockDetailPage />} /> {/* New Route for StockDetailPage */}
+          {/* Redirect to a default page or show a home page */}
           {/* Redirect to a default page or show a home page */}
           <Route path="/" element={<StockListPage stocks={stocks} livePrices={livePrices} isLoadingPrices={isLoadingPrices} handleRefreshPrices={handleRefreshPrices} fetchStocks={fetchStocks} availableCategories={availableCategories} />} />
         </Routes>
