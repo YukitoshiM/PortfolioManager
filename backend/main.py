@@ -145,7 +145,8 @@ async def get_all_live_prices(db: Session = Depends(get_db)):
     """
     stocks = crud.get_stocks(db, limit=1000)
     async def fetch_price(stock):
-        price = await asyncio.to_thread(market_data.get_live_price, stock.ticker)
+        quote_data = await asyncio.to_thread(market_data.get_quote_data, stock.ticker)
+        price = quote_data.get("c") if quote_data else None
         return stock.id, price
     price_tasks = [fetch_price(stock) for stock in stocks]
     price_results = await asyncio.gather(*price_tasks)
