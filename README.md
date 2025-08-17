@@ -12,8 +12,15 @@
 ## 環境構築
 
 ### 前提条件
-- Python 3.9+
-- Node.js (npm)
+本プロジェクトをセットアップするには、以下のツールが必要です。
+
+- **Python 3.9+**:
+  - 公式サイトからインストーラーをダウンロードしてインストールしてください: [Python公式サイト](https://www.python.org/downloads/)
+  - または、お使いのOSのパッケージマネージャー（例: Homebrew, apt, yum）を使用してください。
+
+- **Node.js (npm)**:
+  - 公式サイトからインストーラーをダウンロードしてインストールしてください: [Node.js公式サイト](https://nodejs.org/ja/download/)
+  - npm (Node Package Manager) はNode.jsに同梱されています。
 
 ### 手順
 
